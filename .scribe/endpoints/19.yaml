@@ -1,0 +1,47 @@
+name: Captcha
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/captcha
+    metadata:
+      groupName: Captcha
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Get CAPTCHA'
+      description: |-
+        Calling this endpoint is mandatory if the captcha is enabled in the Admin panel.
+        Return JSON data with an 'img' item that contains the captcha image to show and a 'key' item that contains the generated key to send for validation.
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+      Content-Language: en
+      X-AppApiToken: Uk1DSFlVUVhIRXpHbWt6d2pIZjlPTG15akRPN2tJTUs=
+      X-AppType: docs
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"message":null,"result":{"sensitive":false,"key":"eyJpdiI6Ikt6OGpEYWNWcXQ4algxNVZqQVlmbFE9PSIsInZhbHVlIjoiYmQ1ekJmcGN3dGZUczVGM0hCeUtxU1ZTeUhLVVVHNXdBNFIwaWJDTGluYzd4cGpEOW14RVNPRWxFUHY4TFlyU213TUt0UEoxeUowN2tlRE9RaFFoVDBrb093T1NYNmVTYVVHWE5JWTRlTGs9IiwibWFjIjoiZTVkNWQ0ODQ4Y2E3MjgwOTQ4MWU5NjM0OWY5ZjA3NzViNTYxMTM1MzEwY2I2OWFiOGNjNzY1NTk2OTY3ZjM1NyIsInRhZyI6IiJ9","img":"data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAAAyCAYAAADbYdBlAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAN1ElEQVR4nO2de3BU133HP+feXe1DbyQhCb0R4hkQb2PwAIUaEpgQl8kEO6lbx25rT1w70zhtnYTxtJ4kTerxtJ4k0zZxxm2c+DF1SHCCMXYcAsUGY0WAQLxBQgKBhCT01kq7957+sWi1dx\/S7uqulsd+ZpjhnHPv+d27+93fOed3fvdKHDh0WJIkSYJQEn0BSe5ukgJMklCSAkySUJICTJJQkgJMklCSAkySUCyJvoAkwTzxD9\/1\/f8\/\/\/WbCbyS+JMUYALxF5o\/d7ro\/BlXgFLTkGfrkaeOQ8d15EA\/wu6A7CmIqrmIuQsQNjsA+v73kQ3nQFFBUVAefBShqnG\/iYmw68Xn2PzM83G1YabQPB6Nlmtt9PUPIhSB3WYjLyeLtFTnRC8zIYwpQP1UHfqOX0B7m6F+ZOtEHtwHDifKhi0oazciT59AnqobPfDBR6O6mK9uf4GhYbev\/PDnN7Fq+cKo+kgkExFaX\/8AmqajaRppqU5SUqyG9sbmq+zZ+xF1p86habqhbf6cGTz55S\/EfuEh6Lx8idaLZ+hobmCor5ehgX6EEKhWK1a7A2dmNqnZuWQVTCOroJi0nLyY7IQVoL7\/ffRfvw5ynJ26wQH0nW8gmxqQPV2Gplvd+8VKOKH9ULtAreOffOVl38hGpKaN25\/b7eHr\/\/zvvvIXttzPuvuWAaDrkh27PuCDA4fDfhW5U7Iiv\/hx6LzSxOn9e7jR0hzUJgFd8+B2DTLQ1Un7pQtcutlmdTjZ8JVno7YXUoB67SH0X70W3FBYjKicBc5U6O1GXr4EzY3eizvysfFYIaK+mFuNcEL70QwH5E5FlFdSs6PIV18LLO5\/zu\/IH0RkR1GMwYjOG90AaJrOf736S+pOnhvz\/Lyc7IjsjEfjkUPU\/343o2Nc5LgHB2KyGSRA2dOF\/sufGyszslAeegxl9qeCOpDNjWivvQzXrhgblNsjwrP5mefDezS38YuvTfXOFf\/YBDQBtbB4+NuQkxd8\/1GgqgEC7OoB4M2dewziUxTBzOllFBXk4XQ6cA0N0d7RRfG0\/Jhtj9BQe5CTe3cb6rKLSilfuJzsojJsNz25NjyMq6+H7rarHNu9Y8J2gwSo73sPBvpHKxxO1L99FpEX+iZFSTnq155D+8G\/+LwhAOqtt8AOJ7TP5rt8CxF5+RLaD78HQy6f4EYwejc\/RsTnTEXMnAvpmd4foNUa+vgQKIpA172ep7Orm7qT59h\/6IivfeWyah74zFoy0lIj7jNSultbOLXvPUPdzFXrqVqxJvg67Q6sdgfpufnmC1BqGvLQfqPBLdvCim8EYU1BffgJtO\/6zQESOP+LdjGw60WvsA5vbwYUsHwTLGMILgyiag7qX34lqnNGUBQFXdcAuNbWwWu\/evdmveCRbZ9l+aLg0ccsTu9\/D3nTNkBZ9fKQ4osHRjfVdNHo\/VLTEMtWRdaTIyAMMAlDsBnhjcPbm8njrzm8vZml6+vR337TeICqIu5bj5hbjcjMAl1HXm9FHj6ArD9qOFQeq0G2NCOmlUR9L6qi4MErAtfQMK6hYQAefODTcRVfz\/VrtDdd9JWtdgezV98fN3uBGD1gw3lDo\/jUoshXsn6\/IMAbCzSJeAZsl3+7xBcL9Lz0s6B2Zeufo6xca6gThcWwYAnaf\/8IeazG0KYfq0GNQYCBCxHwhldWr1gUdV\/R0Hr+tKFcNKcaS4otrjb9MQqwvdXQKErKI+9JN8amYhmC\/WOAAK++9Q6vvvXO5O0MXGkylp2pQeLzR1m\/GS1AgFy9HJPpUALcsmF1TH1FQ+flRkM5r3xG3G36YxyC+3qNrVNyI+9JC\/CAYwgwnEezpVgTFoiW7mFwDxsr8wrGPim\/MLifwM8wQiwW4+dVVlxASdE49k2gv6vTUE4fZ75vNkYBugYNRRE4rxuLQAEqStRD51e3vxC5PRPZ\/Mzz7HrxOTYG1Avb2EORCDVUBY4EERLoAasqSmPqJ1qGA+J3KdF85yZgFKAl8rCBPz6hWatGK7vM3VTvHxjkyPHTHK0\/S+v1Trp6elGEIC3VSWlRAfPnzOCexfODYmq3C2qAAKcVxLa1FS16gOMQkxy\/NQowJcVQlENDhNvPCEwZki3NaC\/4hS2KzPsF7ztYy69372XQNRTUNjTcTceNbo6cOMOu3x3g8Ye3UlocPDTe6gR6QLt9chYCKXYHQwN9vrLH5SLFaX6sMRxGAWbnGFvbrsKseSFPDPJuIYbgiaLpkldef5uPj5yI6PiOG9288B+v8uxTj1BUMHXC9icTS8CcObAcL6wOp0GAAz1dkypAg0pEgNeSF85E3pPmCeh54h\/gb9\/fbxCfxaJSXlLI\/DkzqKoowemwB53jdnt45Y3fTNg2gOztibp9vHljOJSAqYMe41wyWjLzpxnKnVcuhTkyPhg8oKic5U0iuJl2IeuPIft6EWnp4\/cU+IGZ4AF7er1BcYfdxpaNa1i1rDooTan2+Gle3\/Euvf2jk+nLLa2cOtfAnKqK6Aw6nOA\/Kb\/einQNevMfQyADQhiAdxsuBlTFONnRJkmAuaUVXDk5GlBvPl7L9CUrJ8U2BHrA7ByvCEfwuNF3vhFRR\/rRTwxlYTFnLzg7K4O\/f\/Iv+JNVS4PEB7B4\/myefHRbUPLN0RNReO+biNIAwXrcobOCADnQj77zzaB6MX1m1HYheA44WR4wf8YcLLbRkaSvo43mE7WTYhtCJCOItRuRftFxWfMRWnYO6qatYTvR33sb+X+\/M1aa4AEtFpWnHtvGtPyxV4TlJYXMm1XJidMXfHWNzS1R2xNLVyLP1Bvq5OEDeBoveDO\/M0a24q4hTxyB\/j5jByk2xIIlUduFYAFOlge02uxULF7BuYN\/8NXV\/\/4dHBlZ5JZOD3teV4wB90CCBKjMW4icvxh5fPRXIN\/\/DZ5zp1BW348or7yZD9iDbDiH\/uFeuHQhsBtT5oAb1qwYV3wjVFWUGgR4ozu6gLAvFlhWGXw\/bVeRbVfHzZJTNn4usulKCAIXHZpHC3Ok+cy4ZzWtF87Q03bVa9s9zOG3fkbJ\/MUUz1tERl4+CMFQfx9dV5u5cqqOtotj5yhGSshxUnnwUbTOduPWVON59MbzoQ6\/eZJinAea4AFzsiOfT2VmGjOP+wcGwxw5NupjT6P95N+MqWURINZsQFn3mZhsQvAiRNMn751Rimph6ece4uO3\/of+Gx0ASKnTVFdDU13NOGdP0HaoSuFMRX3i64jZ8yPrpawS5c++aKwzaQ4YKUEeRIttCBPpGahPfwtly7bItiIrqlD+5u9QH3goJnsjBAaiJ2sOOIIjI4tVX3qcabMXQNjo7yjpueZs2YVViUhLR338a+h1f0Qe2o88W2+M9VmsiIoZiHvXoixajh64KW9iNsxkIywWmLsA0XAO2dnurUxNQ8xbCJnZ3i3KnDxEeaV3XmgCiVqE+GO12Vm0+fPMuGc1LafraG+6yGB3F8OuQVSrFXtaOlOKyymcOY\/c0um+PEoAEeP3Pa6bUhYsgQVLkLoOPV3eMIXdARlZxlStOIRhJhtfVnRvD9pL3xkNyTicqP\/4HUR6RtxsB3nwBAhwhPTcqcy670+ZNcYx7iGXoZwSJlQ1HhGPk0JRIGuK918oAgPRt\/ETcfKTDw3xQFFWGVfxQYhV8CQuQmLB1dttKMe6e2Kem4oiHetWR3ZcN5YDPux4EDgHTKQHjISO5gZDOauwOKZ+zFspBA3Bt68Ag7jShPaLnyCql3qf8x25NyHAZoP0TMQE908TtRUXC7qu0Xj0sKEutyx8zHAsTBSg+ckIiULk5AXF\/GTNR8iaj8KflJOHWLgcZe3GmGKBiVyEeIaHUFQVJYInGXXNQ92enfSPLM4Ae3omBVVzY7JtngDvoCFYLFkBe3bCcHD6V1g6riM\/2IV2aB\/q489E9zgDkOq0k5GeiqqqqIqCwx6caBEvLtcf4cyBD8gtrySnuJyMvEKc2VOw2uwoqopneJiBrk46LjfSdOwTX6zQi2Dumk+jxGsVHDFBArz1nguOFJGZjfLY0+g\/\/zFEO\/\/r70N7+SXUb30vdMZ0GLZuWsfWTeuivFJz6GhuwDM8xLWzJ7l29mQUZwrmrNlAYZiUvUiI4xzw9h2CAZSZcxHbv488XutNS2tvQ7oGjffp8UBXJwSEJOjpQtYcRIzxQNOtRM\/11vEPCiAjr4B56zYzpbhsQrZN9IDGMMyd8GIikWJDLLkXltwb9hip68i976L\/9n+N9edPw20iwDVffoobV5rovHyJ7rYW+m90MtTfi+Z2I3Udi82G1WYndUoumfnTyK+cTVZB0fgdR4BpAhQLl6NMLfQuRnQ9KLn1TkUoCmL9JvS9u43ZMZMQujELRVHJKakgpyTK\/EkTME+AUwsQU+P\/GOEtS0aWQYDS7R7j4CQj3N4TNRORTQ3IKDNgfOe6h8EvLAFMOC54t3D7LlVNRra2oL\/+U+87YJauRMyrRlhTxj\/PNYj+5ivBC5G7eTSIgqQA\/ZESWX\/U+9IhRYH8ad73wKRngM3ue8xAut3elzhdv+Z9n07gGxUApXrpZF\/9bYlI\/rVML\/onH6K\/9rIpfYnqpaiPPGlKX3c6yTngCBEMt5Eg5ixA+eJfmdLX3UByCL6JsnAZIuMb3j81cfak8fHM8RACSqejrNmAsmh5\/C7yDiQpQD\/E9Jmo02d6k29bmpFtV6GzHelyefeFR7YbVdX7BFxqGuQXIorLTMuMvtv4f2NLshoKeCXxAAAAAElFTkSuQmCC"}}'
+        headers:
+          content-type: 'application/json; charset=UTF-8'
+          cache-control: 'no-cache, private'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
