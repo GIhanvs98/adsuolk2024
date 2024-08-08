@@ -100,6 +100,19 @@ img {
     padding: 0;
     width: 100%;
 }
+.wrapper-home{
+    -premailer-cellpadding: 0;
+    -premailer-cellspacing: 0;
+    -premailer-width: 100%;
+    background-color: #edf2f7;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    
+}
+
+
+
 
 .content {
     -premailer-cellpadding: 0;
