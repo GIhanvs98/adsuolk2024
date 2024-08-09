@@ -30,8 +30,10 @@ body {
 
 /*==THIS IS START==*/
 .header-area {
-  background: red!;
-  padding: 20000px 0;
+  
+  background: #0073e2!;
+  padding: 25px 0;
+    text-align: center;
 }
 
 .logo-item img {
