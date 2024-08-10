@@ -8057,7 +8057,7 @@ img {
 }
 
 #wrapper {
-	padding-top: 68px;
+	padding-top: 0;
 	-webkit-transition: padding 0.2s ease;
 	-moz-transition: padding 0.2s ease;
 	-o-transition: padding 0.2s ease;

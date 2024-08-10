@@ -29,7 +29,7 @@ $socialAndAppsLinksAreEnabled = ($socialLinksAreEnabled || $appsLinksAreEnabled)
 					<div class="footer1-box">
 						<ul>
 							<li>
-								<a href="{{ route('home') }}"><img src="{{ asset('images/footer-logo.png') }}" alt="{{ strtolower(config('settings.app.name')) }}"></a>
+								<a href=""><img src="{{ asset('images/footer-logo.png') }}" alt="{{ strtolower(config('settings.app.name')) }}"></a>
 							</li>
 							<li>		
 								@if (config('settings.other.android_app_url'))			

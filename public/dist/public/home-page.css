@@ -30,8 +30,10 @@ body {
 
 /*==THIS IS START==*/
 .header-area {
-  background: red!;
-  padding: 20000px 0;
+  
+  background: #0073e2!;
+  padding: 25px 0;
+    text-align: center;
 }
 
 .logo-item img {
@@ -732,7 +734,7 @@ body {
   height: auto;
 }
 
-.wrapper .toggle_btn {
+.wrapper-home .toggle_btn {
   font-weight: 400;
   font-size: 14px;
   color: #707676;
@@ -741,7 +743,7 @@ body {
   text-align: right;
 }
 
-.wrapper .toggle_btn.active .fas {
+.wrapper-home.toggle_btn.active .fas {
   transform: rotate(180deg);
   margin-left: 6px;
 }
