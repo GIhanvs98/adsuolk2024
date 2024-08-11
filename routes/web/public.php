@@ -55,6 +55,23 @@ use App\Http\Controllers\Web\Public\Search\UserController;
 use App\Http\Controllers\Web\Public\SitemapController;
 use App\Http\Controllers\Web\Public\SitemapsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Web\Public\AdController;
+
+
+Route::prefix('post-ad')->controller(AdController::class)->group(function () {
+
+	Route::get('/', 'postAd')->name('post-ad.index');
+	Route::get('promote/{postId}', 'postAdPromote')->name('post-ad.promote');
+
+	Route::middleware('check-guest-ads')->group(function () {
+
+		Route::get('mc/{mainCategory}', 'postAdMainCategory')->name('post-ad.main-category')->whereNumber('mainCategory');
+		Route::get('mc/{mainCategory}/c/{category}/location', 'postAdLocation')->name('post-ad.location')->whereNumber('mainCategory')->whereNumber('category');
+		Route::get('mc/{mainCategory}/c/{category}/l/{location}/details', 'postAdDetails')->name('post-ad.details')->whereNumber('mainCategory')->whereNumber('category')->whereNumber('location');
+
+		Route::get('{post}/edit', 'postAdEdit')->name('post-ad.edit');
+	});
+});
 
 
 

@@ -68,6 +68,7 @@
 		"symfony/http-client": "^7.0",
 		"symfony/mailgun-mailer": "^7.0",
 		"symfony/postmark-mailer": "^7.0",
+		"twilio/sdk": "^7.16",
 		"vemcogroup/laravel-sparkpost-driver": "^5.0.7",
 		"watson/sitemap": "^5.2"
 	},

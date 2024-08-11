@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laraclassifier/laraclassifier',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => '5f697430088f21d1a72c76e4a84eb7e4d051b5e4',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '7b7894a7401d287346bff246460dc8656f61e028',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -578,9 +578,9 @@
             'dev_requirement' => false,
         ),
         'laraclassifier/laraclassifier' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => '5f697430088f21d1a72c76e4a84eb7e4d051b5e4',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '7b7894a7401d287346bff246460dc8656f61e028',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

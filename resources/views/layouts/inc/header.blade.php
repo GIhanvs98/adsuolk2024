@@ -22,7 +22,7 @@ if ($multiCountriesIsEnabled) {
 ?>
 <div>
 
-	@include('layouts.inc.header-types.old')
+	@include('layouts.inc.header-types.new')
 
 </div>
 
