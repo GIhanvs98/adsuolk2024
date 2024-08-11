@@ -3,7 +3,7 @@
         'name' => 'laraclassifier/laraclassifier',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '7b7894a7401d287346bff246460dc8656f61e028',
+        'reference' => '983a4b7ca4162fae911ce369c896a51543f7bbb0',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -580,7 +580,7 @@
         'laraclassifier/laraclassifier' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '7b7894a7401d287346bff246460dc8656f61e028',
+            'reference' => '983a4b7ca4162fae911ce369c896a51543f7bbb0',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -775,6 +775,15 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
+            'dev_requirement' => false,
+        ),
+        'livewire/livewire' => array(
+            'pretty_version' => 'v3.5.4',
+            'version' => '3.5.4.0',
+            'reference' => 'b158c6386a892efc6c5e4682e682829baac1f933',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../livewire/livewire',
+            'aliases' => array(),
             'dev_requirement' => false,
         ),
         'mailersend/laravel-driver' => array(
