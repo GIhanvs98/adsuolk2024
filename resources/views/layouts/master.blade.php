@@ -160,7 +160,7 @@
 	@show
 </head>
 <body class="skin">
-<div id="wrapper">
+<div id="">
 	
 	@section('header')
 		@includeFirst([config('larapen.core.customizedViewPath') . 'layouts.inc.header', 'layouts.inc.header'])

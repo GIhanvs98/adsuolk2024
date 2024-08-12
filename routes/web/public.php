@@ -57,6 +57,22 @@ use App\Http\Controllers\Web\Public\SitemapsController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::prefix('post-ad')->controller(AdController::class)->group(function () {
+
+	Route::get('/', 'postAd')->name('post-ad.index');
+	Route::get('promote/{postId}', 'postAdPromote')->name('post-ad.promote');
+
+	Route::middleware('check-guest-ads')->group(function () {
+
+		Route::get('mc/{mainCategory}', 'postAdMainCategory')->name('post-ad.main-category')->whereNumber('mainCategory');
+		Route::get('mc/{mainCategory}/c/{category}/location', 'postAdLocation')->name('post-ad.location')->whereNumber('mainCategory')->whereNumber('category');
+		Route::get('mc/{mainCategory}/c/{category}/l/{location}/details', 'postAdDetails')->name('post-ad.details')->whereNumber('mainCategory')->whereNumber('category')->whereNumber('location');
+
+		Route::get('{post}/edit', 'postAdEdit')->name('post-ad.edit');
+	});
+});
+
+
 
 Route::get('search', [SearchController::class, 'search'])->name('search');
 
@@ -91,11 +107,12 @@ Route::middleware(['auth'])
 
 // HOMEPAGE
 if (!doesCountriesPageCanBeHomepage()) {
-	Route::get('/', [HomeController::class, 'index']);
+	Route::get('/', [HomeController::class, 'index'])->name('home');
 	Route::get(dynamicRoute('routes.countries'), [CountriesController::class, 'index']);
 } else {
 	Route::get('/', [CountriesController::class, 'index']);
 }
+
 
 
 // AUTH
@@ -456,17 +473,14 @@ if (!plugin_exists('domainmapping')) {
 }
 
 
-// PAGES
-Route::namespace('Page')
+Route::controller(PageController::class)
 	->group(function ($router) {
-		Route::get(dynamicRoute('routes.pricing'), [PricingController::class, 'index']);
-		Route::get(dynamicRoute('routes.pageBySlug'), [CmsController::class, 'index']);
-		Route::controller(ContactController::class)
-			->group(function ($router) {
-				Route::get(dynamicRoute('routes.contact'), 'getForm');
-				Route::post(dynamicRoute('routes.contact'), 'postForm');
-			});
+		Route::get(dynamicRoute('routes.pricing'), 'pricing')->name('memberships');
+		Route::get(dynamicRoute('routes.pageBySlug'), 'cms');
+		Route::get(dynamicRoute('routes.contact'), 'contact');
+		Route::post(dynamicRoute('routes.contact'), 'contactPost');
 	});
+
 
 // SITEMAP (HTML)
 Route::get(dynamicRoute('routes.sitemap'), [SitemapController::class, 'index']);
