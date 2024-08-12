@@ -126,6 +126,8 @@ class Kernel
 			'clearance'     => \App\Http\Middleware\Clearance::class,
 			'no.http.cache' => \App\Http\Middleware\NoHttpCache::class,
 			'only.ajax'     => \App\Http\Middleware\OnlyAjax::class,
+			'check-guest-ads' => \App\Http\Middleware\CheckGuestAdsMiddleware::class,
+
 		]);
 		
 		/*

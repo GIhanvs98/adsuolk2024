@@ -15,6 +15,7 @@
  */
 
 use Illuminate\Support\Facades\Route;
+// use App\Http\Controllers\Api\CityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +29,31 @@ use Illuminate\Support\Facades\Route;
 */
 
 // install
-Route::namespace('Install')->group(__DIR__ . '/web/install.php');
+// Route::namespace('Install')->group(__DIR__ . '/web/install.php');
 
+/*
 Route::middleware(['installed'])
 	->group(function () {
 		// admin
-		$prefix = config('larapen.admin.route', 'admin');
-		Route::namespace('Admin')->prefix($prefix)->group(__DIR__ . '/web/admin.php');
-		
-		// public
-		Route::namespace('Public')->group(__DIR__ . '/web/public.php');
-	});
+	$prefix = config('larapen.admin.route', 'admin');
+	Route::namespace('Admin')->prefix($prefix)->group(__DIR__ . '/web/admin.php');
+	
+	// public
+	Route::namespace('Public')->group(__DIR__ . '/web/public.php');
+});
+*/
+
+// admin
+$prefix = config('larapen.admin.route', 'admin');
+Route::namespace('Admin')->prefix($prefix)->group(__DIR__ . '/web/admin.php');
+
+// public
+Route::namespace('Public')->group(__DIR__ . '/web/public.php');
+
+// // citiesBydis
+// Route::prefix('getCitesByDisID')
+// 	->controller(CityController::class)
+// 	->group(function ($router) {
+// 		$router->pattern('id', '[0-9]+');
+// 		Route::get('{id}', 'getCitesByDisID');
+// 	});
