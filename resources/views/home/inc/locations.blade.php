@@ -157,7 +157,7 @@ $categories = \App\Models\Category::whereNull('parent_id')->get();
 								Manual Review Prevents Spam Ads
 							</li>
 						</ul>
-						<a href="">Post Your Ad <span>+</span></a>
+						<a href="{{ route('post-ad.index') }}">Post Your Ad <span>+</span></a>
 					</div>   
 				</div>
 			</div>
@@ -222,7 +222,7 @@ $categories = \App\Models\Category::whereNull('parent_id')->get();
 		</div>
 	@endif
 
-<!--	<div class="about-main">
+{{--	<div class="about-main">
 		<div class="wrapper">
 			<div class="text-box">
 				<h4>About Adsup, Sri Lanka’s Fastest Growing Free Ad Marketplace</h4>
@@ -246,7 +246,7 @@ $categories = \App\Models\Category::whereNull('parent_id')->get();
 					</span>
 				</div>
 			</div>
-	</div>-->
+	</div>--}}
 </div>
 
 @section('modal_location')

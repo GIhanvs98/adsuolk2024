@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laraclassifier/laraclassifier',
-        'pretty_version' => 'dev-develop',
-        'version' => 'dev-develop',
-        'reference' => '5f697430088f21d1a72c76e4a84eb7e4d051b5e4',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '249c2f0500de85020be55e3aee3f49de18ee453b',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -578,9 +578,9 @@
             'dev_requirement' => false,
         ),
         'laraclassifier/laraclassifier' => array(
-            'pretty_version' => 'dev-develop',
-            'version' => 'dev-develop',
-            'reference' => '5f697430088f21d1a72c76e4a84eb7e4d051b5e4',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '249c2f0500de85020be55e3aee3f49de18ee453b',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -775,6 +775,15 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
+            'dev_requirement' => false,
+        ),
+        'livewire/livewire' => array(
+            'pretty_version' => 'v3.5.4',
+            'version' => '3.5.4.0',
+            'reference' => 'b158c6386a892efc6c5e4682e682829baac1f933',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../livewire/livewire',
+            'aliases' => array(),
             'dev_requirement' => false,
         ),
         'mailersend/laravel-driver' => array(

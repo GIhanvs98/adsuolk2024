@@ -23,39 +23,37 @@ if (file_exists($iniConfigFile)) {
 	include_once $iniConfigFile;
 }
 
-use App\Enums\PostType;
+use App\Helpers\Referrer;
 use App\Helpers\UrlGen;
-use App\Http\Controllers\Api\Payment\HasPaymentTrigger;
-use App\Http\Controllers\Api\Payment\HasPaymentReferrers;
-use App\Http\Controllers\Api\Payment\Promotion\SingleStepPayment;
+use App\Http\Controllers\Api\Post\CreateOrEdit\Traits\RequiredInfoTrait;
+use App\Http\Controllers\Api\Payment\SingleStepPaymentTrait;
+use App\Http\Controllers\Api\Post\CreateOrEdit\Traits\MakePaymentTrait;
 use App\Http\Controllers\Web\Public\Auth\Traits\VerificationTrait;
-use App\Http\Controllers\Web\Public\Payment\HasPaymentRedirection;
 use App\Http\Controllers\Web\Public\Post\CreateOrEdit\Traits\PricingPageUrlTrait;
-use App\Http\Requests\Front\PostRequest;
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\Package;
 use App\Models\Scopes\ReviewedScope;
 use App\Models\Scopes\VerifiedScope;
 use App\Http\Controllers\Web\Public\FrontController;
-use Illuminate\Database\Eloquent\Collection;
 use Larapen\LaravelMetaTags\Facades\MetaTag;
 
 class CreateController extends FrontController
 {
 	use VerificationTrait;
-	use HasPaymentReferrers;
-	use HasPaymentTrigger, SingleStepPayment, HasPaymentRedirection;
+	use RequiredInfoTrait;
+	use SingleStepPaymentTrait, MakePaymentTrait;
 	use PricingPageUrlTrait;
 	
 	public $request;
 	public $data;
 	
 	// Payment's properties
-	public array $msg = [];
-	public array $uri = [];
-	public ?Package $selectedPackage = null; // See SingleStepPaymentTrait::setPaymentSettingsForPromotion()
-	public Collection $packages;
-	public Collection $paymentMethods;
+	public $msg = [];
+	public $uri = [];
+	public $selectedPackage = null; // See SingleStepPaymentTrait::paymentSettings()
+	public $packages;
+	public $paymentMethods;
 	
 	/**
 	 * CreateController constructor.
@@ -64,37 +62,32 @@ class CreateController extends FrontController
 	{
 		parent::__construct();
 		
-		$this->commonQueries();
-	}
-	
-	/**
-	 * Get the middleware that should be assigned to the controller.
-	 */
-	public static function middleware(): array
-	{
-		$array = [];
-		
 		// Check if guests can post Ads
-		if (config('settings.listing_form.guest_can_submit_listings') != '1') {
-			$array[] = 'auth';
+		if (config('settings.single.guests_can_post_listings') != '1') {
+			$this->middleware('auth');
 		}
 		
-		return $array;
+		$this->middleware(function ($request, $next) {
+			$this->commonQueries();
+			
+			return $next($request);
+		});
 	}
 	
 	/**
 	 * @return void
+	 * @throws \Exception
 	 */
 	public function commonQueries(): void
 	{
-		$this->getPaymentReferrersData();
-		$this->setPaymentSettingsForPromotion();
+		$this->setPostFormRequiredInfo();
+		$this->paymentSettings();
 		
 		// References
 		$data = [];
 		
-		if (config('settings.listing_form.show_listing_type')) {
-			$data['postTypes'] = PostType::all();
+		if (config('settings.single.show_listing_types')) {
+			$data['postTypes'] = Referrer::getPostTypes($this->cacheExpiration);
 			view()->share('postTypes', $data['postTypes']);
 		}
 		
@@ -105,22 +98,21 @@ class CreateController extends FrontController
 	/**
 	 * New Post's Form.
 	 *
-	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
 	public function getForm()
 	{
 		// Check if the 'Pricing Page' must be started first, and make redirection to it.
 		$pricingUrl = $this->getPricingPage($this->selectedPackage);
 		if (!empty($pricingUrl)) {
-			return redirect()->to($pricingUrl)->withHeaders(config('larapen.core.noCacheHeaders'));
+			return redirect($pricingUrl)->withHeaders(config('larapen.core.noCacheHeaders'));
 		}
 		
-		// Check if the form type is 'Multi-Step Form' and make redirection to it (permanently).
-		$isMultiStepFormEnabled = (config('settings.listing_form.publication_form_type') == '1');
-		if ($isMultiStepFormEnabled) {
+		// Check if the form type is 'Multi Steps Form', and make redirection to it (permanently).
+		if (config('settings.single.publication_form_type') == '1') {
 			$url = url('posts/create');
 			
-			return redirect()->to($url, 301)->withHeaders(config('larapen.core.noCacheHeaders'));
+			return redirect($url, 301)->withHeaders(config('larapen.core.noCacheHeaders'));
 		}
 		
 		// Meta Tags
@@ -136,8 +128,8 @@ class CreateController extends FrontController
 	/**
 	 * Store a new Post.
 	 *
-	 * @param \App\Http\Requests\Front\PostRequest $request
-	 * @return \Illuminate\Http\RedirectResponse
+	 * @param PostRequest $request
+	 * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
 	 */
 	public function postForm(PostRequest $request)
 	{
@@ -146,14 +138,14 @@ class CreateController extends FrontController
 		$data = makeApiRequest('post', $endpoint, $request->all(), [], true);
 		
 		// Parsing the API response
-		$message = data_get($data, 'message', t('unknown_error'));
+		$message = !empty(data_get($data, 'message')) ? data_get($data, 'message') : 'Unknown Error.';
 		
 		// HTTP Error Found
 		if (!data_get($data, 'isSuccessful')) {
 			flash($message)->error();
 			
 			if (data_get($data, 'extra.previousUrl')) {
-				return redirect()->to(data_get($data, 'extra.previousUrl'))->withInput($request->except('pictures'));
+				return redirect(data_get($data, 'extra.previousUrl'))->withInput($request->except('pictures'));
 			} else {
 				return redirect()->back()->withInput($request->except('pictures'));
 			}
@@ -166,33 +158,65 @@ class CreateController extends FrontController
 			flash($message)->error();
 		}
 		
-		// Get Listing Resource
-		$post = data_get($data, 'result');
-		
-		abort_if(empty($post), 404, t('post_not_found'));
-		
-		// Get the Next URL
+		// Get Next URL
 		$nextUrl = url('create/finish');
-		
-		// Get the listing ID
-		$postId = data_get($data, 'result.id');
 		
 		// Check if the payment process has been triggered
 		// NOTE: Payment bypass email or phone verification
-		// ===| Make|send payment (if needed) |==============
-		
-		$postObj = $this->retrievePayableModel($request, $postId);
-		abort_if(empty($postObj), 404, t('post_not_found'));
-		
-		$payResult = $this->isPaymentRequested($request, $postObj);
-		if (data_get($payResult, 'success')) {
-			return $this->sendPayment($request, $postObj);
+		if ($request->filled('package_id') && $request->filled('payment_method_id')) {
+			$postId = data_get($data, 'result.id', 0);
+			$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
+				->where('id', $postId)->with([
+					'latestPayment' => function ($builder) { $builder->with(['package']); },
+				])->first();
+			if (!empty($post)) {
+				// Make Payment (If needed) - By not using REST API
+				// Check if the selected Package has been already paid for this Post
+				$alreadyPaidPackage = false;
+				if (!empty($post->latestPayment)) {
+					if ($post->latestPayment->package_id == $request->input('package_id')) {
+						$alreadyPaidPackage = true;
+					}
+				}
+				// Check if Payment is required
+				$package = Package::find($request->input('package_id'));
+				if (!empty($package)) {
+					if ($package->price > 0 && $request->filled('payment_method_id') && !$alreadyPaidPackage) {
+						// Get the next URL
+						$nextUrl = $this->apiUri['nextUrl'];
+						$previousUrl = $this->apiUri['previousUrl'];
+						
+						// Send the Payment
+						$paymentData = $this->sendPayment($request, $post);
+						
+						// Check if a Payment has been sent
+						if (data_get($paymentData, 'extra.payment')) {
+							$paymentMessage = data_get($paymentData, 'extra.payment.message');
+							if (data_get($paymentData, 'extra.payment.success')) {
+								flash($paymentMessage)->success();
+								
+								if (data_get($paymentData, 'extra.nextUrl')) {
+									$nextUrl = data_get($paymentData, 'extra.nextUrl');
+								}
+								
+								return redirect($nextUrl);
+							} else {
+								flash($paymentMessage)->error();
+								
+								if (data_get($paymentData, 'extra.previousUrl')) {
+									$previousUrl = data_get($paymentData, 'extra.previousUrl');
+								}
+								
+								return redirect($previousUrl)->withInput();
+							}
+						}
+					}
+				}
+			}
 		}
-		if (data_get($payResult, 'failure')) {
-			flash(data_get($payResult, 'message'))->error();
-		}
 		
-		// ===| If no payment is made (continue) |===========
+		// Get Listing Resource
+		$post = data_get($data, 'result');
 		
 		if (
 			data_get($data, 'extra.sendEmailVerification.emailVerificationSent')
@@ -214,9 +238,7 @@ class CreateController extends FrontController
 				// Show the Re-send link
 				$this->showReSendVerificationSmsLink($post, 'posts');
 				
-				// Phone Number verification
-				// Get the token|code verification form page URL
-				// The user is supposed to have received this token|code by SMS
+				// Go to Phone Number verification
 				$nextUrl = url('posts/verify/phone/');
 			}
 		}
@@ -233,18 +255,20 @@ class CreateController extends FrontController
 		
 		$nextUrl = qsUrl($nextUrl, request()->only(['package']), null, false);
 		
-		return redirect()->to($nextUrl);
+		return redirect($nextUrl);
 	}
 	
 	/**
 	 * Confirmation
 	 *
-	 * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+	 * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+	 * @throws \Psr\Container\ContainerExceptionInterface
+	 * @throws \Psr\Container\NotFoundExceptionInterface
 	 */
 	public function finish()
 	{
 		if (!session()->has('message')) {
-			return redirect()->to('/');
+			return redirect('/');
 		}
 		
 		// Clear Session
@@ -252,12 +276,10 @@ class CreateController extends FrontController
 			session()->forget('itemNextUrl');
 		}
 		
-		$post = null;
 		if (session()->has('postId')) {
 			// Get the Post
-			$post = Post::query()
-				->withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
-				->where('id', session('postId'))
+			$post = Post::withoutGlobalScopes([VerifiedScope::class, ReviewedScope::class])
+				->where('id', session()->get('postId'))
 				->first();
 			
 			abort_if(empty($post), 404, t('post_not_found'));
@@ -270,10 +292,10 @@ class CreateController extends FrontController
 		// - Or if Email and Phone verification option is not activated
 		$doesVerificationIsDisabled = (config('settings.mail.email_verification') != 1 && config('settings.sms.phone_verification') != 1);
 		if (auth()->check() || $doesVerificationIsDisabled) {
-			if (!empty($post)) {
-				flash(session('message'))->success();
+			if (isset($post) && !empty($post)) {
+				flash(session()->get('message'))->success();
 				
-				return redirect()->to(UrlGen::postUri($post));
+				return redirect(UrlGen::postUri($post));
 			}
 		}
 		

@@ -291,7 +291,7 @@ class PostController extends BaseController
 			}
 		}
 		
-		// Confirmation
+		
 		if ($res) {
 			$data['success'] = true;
 			

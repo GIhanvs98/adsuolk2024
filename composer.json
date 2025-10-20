@@ -50,6 +50,7 @@
 		"league/flysystem-ftp": "^3.27",
 		"league/flysystem-sftp-v3": "^3.26",
 		"livecontrol/eloquent-datatable": "dev-master",
+		"livewire/livewire": "^3.5",
 		"mailersend/laravel-driver": "^2.5",
 		"mews/purifier": "^3.4",
 		"paypal/paypal-checkout-sdk": "^1.0",

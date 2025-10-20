@@ -13,12 +13,12 @@
                             </div>
                         </div>
                         <div class="logo-item">
-                            <a href="{{ url('/') }}"><img src="{{ config('settings.app.logo_url') }}" alt="{{ strtolower(config('settings.app.name')) }}"></a>
+                            <a href=""><img src="{{ config('settings.app.logo_url') }}" alt="{{ strtolower(config('settings.app.name')) }}"></a>
                         </div>
                     </div>
                     <div class="ads-item d-none d-lg-block">
                         <ul>
-                            <li><a href="">All ads</a></li>
+                            <li><a href="{{ route('search') }}">All ads</a></li>
                             <li><a href="">Member</a></li>
                         </ul>
                     </div>
@@ -39,12 +39,12 @@
                 <nav class="main-nav">
                     <ul>
                         <li>
-                            <livewire:header-messages-link />
+                           
                         </li>
                         <li>
-                            <livewire:header-account-link />
+                            
                         </li>
-                        <li class="d-none d-lg-block"><a href="">post your ad</a></li>
+                        <li class="d-none d-lg-block"><a href="{{ route('post-ad.index') }}">post your ad</a></li>
                     </ul>
                 </nav>
             </div>
@@ -57,7 +57,7 @@
 <div class="sidebar-menu d-block d-lg-none">
     <div class="menu-header d-flex align-items-center justify-content-between">
         <div class="mobil-brand">
-            <a href="{{ url('/') }}" style="max-width: 150px;display: inline-block;">
+            <a href="" style="max-width: 150px;display: inline-block;">
                 <img src="images/logo.png" alt="logo">
             </a>
         </div>
@@ -66,8 +66,8 @@
         </div>
     </div>
     <div class="menu-wrap">
-        <div class="menu-item"><a href="#">All ads</a></div>
-        <div class="menu-item"><a href="#">Member</a></div>
+        <div class="menu-item"><a href="{{ route('search') }}">All ads</a></div>
+        <div class="menu-item"><a href="">Member</a></div>
     </div>
     <div class="mobil-lang" style="padding: 0 15px 0 15px;">
         <div class="flex items-center md:ml-[15px] notranslate" style="height: 100%;">
